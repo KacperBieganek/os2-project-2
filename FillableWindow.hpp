@@ -6,30 +6,38 @@
 #define TETRIS_FILLABLEWINDOW_HPP
 
 #include <ncurses.h>
-#include <memory>
 #include <mutex>
 #include <atomic>
+#include <deque>
+#include <condition_variable>
 #include "Block.hpp"
-#include <stack>
 
 namespace tetris
 {
     class FillableWindow
     {
     private:
-        std::unique_ptr <WINDOW> window;
-        std::atomic<bool> running;
-        std::stack <Block> blockStack;
-        std::mutex ncursesMutex;
-        std::mutex collectionMutex;
+        WINDOW *window;
+        std::atomic<bool> &running;
+        std::deque<Block> &blockQueue;
+        std::mutex &ncursesMutex;
+        std::mutex &collectionMutex;
+        std::condition_variable &cv;
         int windowHeight;
         int windowWidth;
 
 
-        void drawBlock();
+        void drawBlock(Block block);
 
     public:
-        explicit FillableWindow();
+        FillableWindow(WINDOW *window,
+                       std::atomic<bool> &running,
+                       std::deque<Block> &blockQueue,
+                       std::mutex &collectionMutex,
+                       std::mutex &ncursesMutex,
+                       std::condition_variable &cv,
+                       int windowHeight,
+                       int windowWidth);
 
         void run();
 
