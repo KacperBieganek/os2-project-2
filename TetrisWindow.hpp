@@ -9,8 +9,9 @@
 #include <memory>
 #include <mutex>
 #include <atomic>
-#include <stack>
-#include "Block.hpp"
+#include <deque>
+#include "BlockGenerator.hpp"
+#include <condition_variable>
 
 
 namespace tetris
@@ -18,14 +19,30 @@ namespace tetris
     class TetrisWindow
     {
     private:
-        std::unique_ptr <WINDOW> window;
-        std::atomic<bool> running;
-        std::stack <Block> blockStack;
-        std::mutex ncursesMutex;
-        std::mutex collectionMutex;
+        WINDOW *window;
+        std::atomic<bool> &running;
+        std::deque <Block> &blockQueue;
+        std::mutex &ncursesMutex;
+        std::mutex &collectionMutex;
+        std::condition_variable &cv;
         int windowHeight;
         int windowWidth;
+        BlockGenerator blockGenerator;
 
+        void drawFallingBlock(Block block);
+
+    public:
+        TetrisWindow(WINDOW *window,
+                     std::atomic<bool> &running,
+                     std::deque <Block> &blockQueue,
+                     std::mutex &collectionMutex,
+                     std::mutex &ncursesMutex,
+                     std::condition_variable &cv,
+                     int windowHeight,
+                     int windowWidth);
+
+
+        void run();
 
     };
 }
