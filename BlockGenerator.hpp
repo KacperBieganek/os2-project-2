@@ -22,8 +22,6 @@ namespace tetris
                                                                         {1,  0},
                                                                         {1,  1}};
     public:
-        BlockGenerator() {};
-
         Block generateBlock();
 
     };

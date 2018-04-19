@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <utility>
+#include <string>
 
 namespace tetris
 {
@@ -14,8 +15,14 @@ namespace tetris
     {
         std::vector <std::pair<int, int>> relativePointCords;
         std::pair<int, int> basePosition;
+        char charToDraw;
 
-        Block(std::vector <std::pair<int, int>> relativePointCords);
+        Block(std::vector <std::pair<int, int>> relativePointCords, char charToDraw) :
+                relativePointCords(relativePointCords),
+                charToDraw(charToDraw) {
+
+
+        };
 
     };
 }
