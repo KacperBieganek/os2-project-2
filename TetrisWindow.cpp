@@ -9,7 +9,7 @@ namespace tetris
 {
     TetrisWindow::TetrisWindow(WINDOW *window,
                                std::atomic<bool> &running,
-                               std::deque <Block> &block_queue,
+                               std::deque<Block> &block_queue,
                                std::mutex &collection_mutex,
                                std::mutex &ncurses_mutex,
                                std::condition_variable &cv,
@@ -30,7 +30,7 @@ namespace tetris
             Block block = blockGenerator.generateBlock();
             drawFallingBlock(block);
             {
-                std::lock_guard <std::mutex> lock(collection_mutex);
+                std::lock_guard<std::mutex> lock(collection_mutex);
                 block_queue.push_back(block);
             }
             cv.notify_one();
@@ -42,12 +42,14 @@ namespace tetris
         int y = 0, x = rand() % (window_width - 4) + 2;
         while (falling) {
             usleep(75000);
-            std::lock_guard <std::mutex> lock(ncurses_mutex);
+            std::lock_guard<std::mutex> lock(ncurses_mutex);
             wclear(window);
             box(window, 0, ' ');
-            for (auto point : block.relativePointCords) {
+            for (auto point : block.relative_point_cords) {
+                wattron(window,COLOR_PAIR(block.color_pair));
                 if (y + point.first > 0 && y + point.first < window_height)
-                    mvwprintw(window, y + point.first, x + point.second, &block.charToDraw);
+                    mvwprintw(window, y + point.first, x + point.second, " ");
+                wattroff(window,COLOR_PAIR(block.color_pair));
             }
             y += 1;
             if (y == window_height)

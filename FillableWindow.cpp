@@ -36,11 +36,13 @@ namespace tetris
     }
 
     void FillableWindow::drawBlock(Block block) {
-        int y = rand() % (window_height - 5) + 2, x = rand() % (window_width - 3) + 2;
+        int y = rand() % (window_height - 5) + 2, x = rand() % (window_width - 4) + 2;
         {
             std::lock_guard<std::mutex> lock(ncurses_mutex);
-            for (auto point : block.relativePointCords)
-                mvwprintw(window, y + point.first, x + point.second, &block.charToDraw);
+            wattron(window,COLOR_PAIR(block.color_pair));
+            for (auto point : block.relative_point_cords)
+                mvwprintw(window, y + point.first, x + point.second," ");
+            wattroff(window,COLOR_PAIR(block.color_pair));
             wrefresh(window);
         }
     }

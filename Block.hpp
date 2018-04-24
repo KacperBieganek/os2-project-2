@@ -13,13 +13,12 @@ namespace tetris
 {
     struct Block
     {
-        std::vector <std::pair<int, int>> relativePointCords;
-        std::pair<int, int> basePosition;
-        char charToDraw;
+        std::vector <std::pair<int, int>> relative_point_cords;
+        int color_pair;
 
-        Block(std::vector <std::pair<int, int>> relativePointCords, char charToDraw) :
-                relativePointCords(relativePointCords),
-                charToDraw(charToDraw) {
+        Block(std::vector <std::pair<int, int>> relative_point_cords, int color_pair) :
+                relative_point_cords(relative_point_cords),
+                color_pair(color_pair) {
 
 
         };

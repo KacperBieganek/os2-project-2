@@ -11,8 +11,8 @@ namespace tetris
         std::vector <std::pair<int, int>> relativePoints;
         for (size_t i = 0; i < 9; i++)
             if (rand() % 2)
-                relativePoints.push_back(this->relativePointCordsCombination[i]);
-        char c = (char) (rand() % 26 + (int) 'A');
-        return Block{relativePoints, c};
+                relativePoints.push_back(this->relative_point_cordsCombination[i]);
+        int color_pair = rand() % 4 + 1;
+        return Block{relativePoints, color_pair};
     }
 }

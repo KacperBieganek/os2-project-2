@@ -12,7 +12,7 @@ namespace tetris
     class BlockGenerator
     {
     private:
-        std::vector <std::pair<int, int>> relativePointCordsCombination{{-1, -1},
+        std::vector <std::pair<int, int>> relative_point_cordsCombination{{-1, -1},
                                                                         {-1, 0},
                                                                         {-1, 1},
                                                                         {0,  -1},

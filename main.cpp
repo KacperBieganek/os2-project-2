@@ -66,19 +66,14 @@ void init_app(std::vector<WINDOW *> &windows, int &height, int &width) {
     noecho();
     curs_set(FALSE);
     start_color();
-    init_pair(1, COLOR_RED, COLOR_BLACK);
-    init_pair(2, COLOR_CYAN, COLOR_BLACK);
-    init_pair(3, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(4, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(1,COLOR_WHITE, COLOR_RED);
+    init_pair(2,COLOR_WHITE, COLOR_CYAN);
+    init_pair(3,COLOR_WHITE, COLOR_YELLOW);
+    init_pair(4,COLOR_WHITE, COLOR_MAGENTA);
     getmaxyx(stdscr, height, width);
     refresh();
     makeWindows(windows, height, width);
     width = width >> 2;
-    int counter = 0;
-    for (auto &window : windows) {
-        wbkgd(window, COLOR_PAIR(++counter));
-        wrefresh(window);
-    }
 }
 
 void makeWindows(std::vector<WINDOW *> &windowVector, int height, int width) {
