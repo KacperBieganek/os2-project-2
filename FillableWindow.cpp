@@ -8,37 +8,37 @@ namespace tetris
 {
     FillableWindow::FillableWindow(WINDOW *window,
                                    std::atomic<bool> &running,
-                                   std::deque<Block> &blockQueue,
-                                   std::mutex &collectionMutex,
-                                   std::mutex &ncursesMutex,
+                                   std::deque<Block> &block_queue,
+                                   std::mutex &collection_mutex,
+                                   std::mutex &ncurses_mutex,
                                    std::condition_variable &cv,
-                                   int windowHeight,
-                                   int windowWidth) :
+                                   int window_height,
+                                   int window_width) :
             window(window),
             running(running),
-            blockQueue(blockQueue),
-            collectionMutex(collectionMutex),
-            ncursesMutex(ncursesMutex),
+            block_queue(block_queue),
+            collection_mutex(collection_mutex),
+            ncurses_mutex(ncurses_mutex),
             cv(cv),
-            windowHeight(windowHeight),
-            windowWidth(windowWidth) {
+            window_height(window_height),
+            window_width(window_width) {
     };
 
     void FillableWindow::run() {
         while (running) {
-            std::unique_lock<std::mutex> lock(collectionMutex);
+            std::unique_lock<std::mutex> lock(collection_mutex);
             cv.wait(lock);
-            Block block = blockQueue.front();
-            blockQueue.pop_front();
+            Block block = block_queue.front();
+            block_queue.pop_front();
             lock.unlock();
             drawBlock(block);
         }
     }
 
     void FillableWindow::drawBlock(Block block) {
-        int y = rand() % (windowHeight - 5) + 2, x = rand() % (windowWidth - 3) + 2;
+        int y = rand() % (window_height - 5) + 2, x = rand() % (window_width - 3) + 2;
         {
-            std::lock_guard<std::mutex> lock(ncursesMutex);
+            std::lock_guard<std::mutex> lock(ncurses_mutex);
             for (auto point : block.relativePointCords)
                 mvwprintw(window, y + point.first, x + point.second, &block.charToDraw);
             wrefresh(window);

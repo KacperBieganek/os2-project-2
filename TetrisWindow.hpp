@@ -21,12 +21,12 @@ namespace tetris
     private:
         WINDOW *window;
         std::atomic<bool> &running;
-        std::deque <Block> &blockQueue;
-        std::mutex &ncursesMutex;
-        std::mutex &collectionMutex;
+        std::deque <Block> &block_queue;
+        std::mutex &ncurses_mutex;
+        std::mutex &collection_mutex;
         std::condition_variable &cv;
-        int windowHeight;
-        int windowWidth;
+        int window_height;
+        int window_width;
         BlockGenerator blockGenerator;
 
         void drawFallingBlock(Block block);
@@ -34,12 +34,12 @@ namespace tetris
     public:
         TetrisWindow(WINDOW *window,
                      std::atomic<bool> &running,
-                     std::deque <Block> &blockQueue,
-                     std::mutex &collectionMutex,
-                     std::mutex &ncursesMutex,
+                     std::deque <Block> &block_queue,
+                     std::mutex &collection_mutex,
+                     std::mutex &ncurses_mutex,
                      std::condition_variable &cv,
-                     int windowHeight,
-                     int windowWidth);
+                     int window_height,
+                     int window_width);
 
 
         void run();
